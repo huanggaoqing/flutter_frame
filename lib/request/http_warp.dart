@@ -27,8 +27,10 @@ class HttpWarp<T> {
   bool _isShowErrorTips = true;
 
   String? _tipsText;
-  
+
   bool _isLoading = true;
+
+  CancelToken? _cancelToken;
 
   HttpWarp(DioBase dioBase) {
     this._dioBase = dioBase;
@@ -36,6 +38,11 @@ class HttpWarp<T> {
 
   HttpWarp<T> setUrl(String url) {
     _url = url;
+    return this;
+  }
+
+  HttpWarp<T> registerCancelToken(CancelToken token) {
+    _cancelToken = token;
     return this;
   }
 
@@ -106,6 +113,7 @@ class HttpWarp<T> {
       queryParameters: _queryParameters,
       data: _data,
       onSendProgress: _onSendProgress,
+      cancel: _cancelToken,
     );
     Resp<T> res = Resp.fromJson(resp, _format);
     if(!res.isSuccess && _isShowErrorTips) {
