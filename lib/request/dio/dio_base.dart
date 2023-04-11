@@ -103,7 +103,7 @@ class DioBase {
       }
       return resp.data!;
     } catch(e) {
-      return Resp(resCode: 400, resMsg: "网络错误", result: null).toJson();
+      return Resp(resCode: 400, resMsg: "网络错误，请检查您的网络", result: null).toJson();
     }
   }
 

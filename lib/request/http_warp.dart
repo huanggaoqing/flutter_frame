@@ -5,6 +5,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_getx/request/dio/dio_base.dart';
 import 'package:flutter_getx/request/resp_model.dart';
 
+typedef HandleErrorFunc<T> = void Function(Resp<T?>);
+
 class HttpWarp<T> {
   late DioBase _dioBase;
 
@@ -31,6 +33,8 @@ class HttpWarp<T> {
   bool _isLoading = true;
 
   CancelToken? _cancelToken;
+
+  List<HandleErrorFunc<T>> _handleErrorList = []; 
 
   HttpWarp(DioBase dioBase) {
     this._dioBase = dioBase;
@@ -96,6 +100,11 @@ class HttpWarp<T> {
     return this;
   }
 
+  HttpWarp<T> registerErrorHandle(HandleErrorFunc<T> func) {
+    _handleErrorList.add(func);
+    return this;
+  }
+
   void _onSendProgress(int count, int total) {
     for (ProgressCallback func in _sendProgressFuncs) {
       func(count, total);
@@ -119,6 +128,9 @@ class HttpWarp<T> {
     Resp<T> res = Resp.fromJson(resp, _format);
     if(!res.isSuccess && _isShowErrorTips) {
       BotToast.showText(text: _tipsText ?? res.resMsg);
+      for (HandleErrorFunc<T> func in _handleErrorList) {
+        func(res);
+      }
     }
     if(cancel != null) {
        cancel();

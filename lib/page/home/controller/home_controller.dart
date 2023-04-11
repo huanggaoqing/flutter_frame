@@ -20,8 +20,13 @@ class HomeController extends GetxController with HttpMain {
     var resp = await request<Detail>()
       .setUrl("/adam/aiCourse/trainingData/details/1710")
       .format(Detail.fromJson)
+      .registerErrorHandle(handleError)
       .start();
     print("resp${resp.result?.courseName}");
+  }
+
+  void handleError(Resp<Detail?> data) {
+    print("handleError ${data.resCode} ==> ${data.resMsg}");
   }
 
   factory HomeController.get() {
