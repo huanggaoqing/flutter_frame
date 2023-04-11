@@ -114,6 +114,7 @@ class HttpWarp<T> {
       data: _data,
       onSendProgress: _onSendProgress,
       cancel: _cancelToken,
+      headers: _headers
     );
     Resp<T> res = Resp.fromJson(resp, _format);
     if(!res.isSuccess && _isShowErrorTips) {

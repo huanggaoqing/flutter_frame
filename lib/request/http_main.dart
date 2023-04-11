@@ -20,11 +20,11 @@ mixin HttpMain {
   String _getBaseUrl(Env env) {
     switch (env) {
       case Env.test:
-        return "";
+        return "https://venus-test.bodypark.cn";
       case Env.beta:
-        return "";
+        return "https://venus-beta.bodypark.cn";
       case Env.pro:
-        return "";
+        return "https://venus.bodypark.cn";
     } 
   }
 
