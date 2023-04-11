@@ -7,16 +7,27 @@ import 'package:flutter_getx/request/resp_model.dart';
 
 class HttpWarp<T> {
   late DioBase _dioBase;
+
   RequestMethods _method = RequestMethods.get;
+
   late String _url;
+
   Map<String, dynamic>? _queryParameters;
+
   dynamic? _data;
+
   List<ProgressCallback> _sendProgressFuncs = [];
+
   List<ProgressCallback> _receiveProgressFuncs = [];
+
   T Function(Map<String, dynamic>)? _format;
+
   Map<String, dynamic> _headers = {};
+
   bool _isShowErrorTips = true;
+
   String? _tipsText;
+  
   bool _isLoading = true;
 
   HttpWarp(DioBase dioBase) {
